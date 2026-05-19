@@ -1,0 +1,9 @@
+flujo.png
+.agente_churn/
+venv/
+env/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/

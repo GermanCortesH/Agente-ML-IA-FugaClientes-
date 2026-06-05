@@ -58,22 +58,95 @@ def get_all_customers():
     return CUSTOMERS_DB
 
 
+
 def generate_random_customer():
-    """Simula nuevos datos en tiempo real"""
 
     today = datetime.today()
 
-    signup_date = today - timedelta(days=random.randint(100, 2000))
-    last_login = today - timedelta(days=random.randint(1, 400))
+    signup_date = today - timedelta(
+        days=random.randint(100, 2000)
+    )
+
+    last_login = today - timedelta(
+        days=random.randint(1, 400)
+    )
+
+    usage_minutes = random.randint(10, 2000)
+
+    support_tickets = random.randint(0, 20)
+
+    monthly_fee = round(random.uniform(5, 50), 2)
+
+    plan = random.choice([
+        "basic",
+        "pro",
+        "enterprise"
+    ])
+
+    country = random.choice([
+        "ES",
+        "US",
+        "MX",
+        "AR",
+        "FR"
+    ])
+
+    # =====================================
+    # LOGICA CHURN
+    # =====================================
+
+    churn_risk = 0
+
+    # poco uso
+    if usage_minutes < 200:
+        churn_risk += 35
+
+    # muchos tickets
+    if support_tickets > 10:
+        churn_risk += 30
+
+    # mucho tiempo sin login
+    inactive_days = (today - last_login).days
+
+    if inactive_days > 90:
+        churn_risk += 40
+
+    # planes baratos tienen mas churn
+    if plan == "basic":
+        churn_risk += 10
+
+    # clientes antiguos tienden a quedarse
+    customer_age = (today - signup_date).days
+
+    if customer_age > 1000:
+        churn_risk -= 20
+
+    # ruido aleatorio
+    churn_risk += random.randint(-10, 10)
+
+    # =====================================
+    # TARGET FINAL
+    # =====================================
+
+    is_active = 0 if churn_risk >= 50 else 1
 
     return {
+
         "customer_id": random.randint(1000, 9999),
+
         "signup_date": signup_date.strftime("%Y-%m-%d"),
+
         "last_login_date": last_login.strftime("%Y-%m-%d"),
-        "plan": random.choice(["basic", "pro", "enterprise"]),
-        "monthly_fee": round(random.uniform(5, 50), 2),
-        "support_tickets": random.randint(0, 20),
-        "usage_minutes": random.randint(10, 2000),
-        "country": random.choice(["ES", "US", "MX", "AR", "FR"]),
-        "is_active": random.choice([0, 1])
+
+        "plan": plan,
+
+        "monthly_fee": monthly_fee,
+
+        "support_tickets": support_tickets,
+
+        "usage_minutes": usage_minutes,
+
+        "country": country,
+
+        "is_active": is_active
     }

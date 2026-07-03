@@ -20,11 +20,14 @@ modelo_pre = joblib.load(RUTA_MODELO)
 modelo_dummys = joblib.load(RUTA_DUM)
 
 
-def ejecutar_analisis(customer_id):
+def ejecutar_analisis(customer_id, agente):
     cliente_data = get_customer_by_id(customer_id)
+    print("fase cliente data")    
     prediccion_riesgo = prediccion(cliente_data)
+    print("fase prediccion_riesgo ")    
     contexto_ml = datos_organizados_llm(cliente_data,prediccion_riesgo)
-    agente_ia = proceso_agente(contexto_ml)
+    print("fase contexto_ml")    
+    agente_ia = proceso_agente(contexto_ml,agente)
     return agente_ia
 
 def datos_organizados_llm(cliente_data, prediction):

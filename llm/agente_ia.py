@@ -31,8 +31,8 @@ def creacion_agente_ia():
     agent = create_tool_calling_agent(llm, tools, prompt_template)
     return AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-def proceso_agente(contexto_ml):
-    agente = creacion_agente_ia()
+def proceso_agente(contexto_ml,agente_AI):
+    agente = agente_AI
     resultado = agente.invoke({
         "customer_id": contexto_ml["customer_id"],
         "churn_probability": contexto_ml["prediction"]["churn_probability"],

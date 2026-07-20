@@ -9,6 +9,7 @@ from langchain_core.tools import tool
 from langchain_classic.agents import AgentExecutor
 from langchain_classic.agents import create_tool_calling_agent
 
+from configuracion.config_ia import get_embeddings,get_llm
 from llm.tools_agente import tool_descuentos_clientes
 from llm.prompts import SYSTEM_PROMPT,HUMAN_PROMPT_CHURN
 
@@ -27,7 +28,7 @@ prompt_template = ChatPromptTemplate.from_messages([
 ])
 
 def creacion_agente_ia():
-    llm = ChatOllama(model="llama3.1", temperature=0)
+    llm = get_llm()
     agent = create_tool_calling_agent(llm, tools, prompt_template)
     return AgentExecutor(agent=agent, tools=tools, verbose=True)
 
@@ -39,4 +40,5 @@ def proceso_agente(contexto_ml,agente_AI):
         "risk_level": contexto_ml["prediction"]["risk_level"],
         "important_factors": contexto_ml["important_factors"]
     })
+    print(resultado)
     return resultado["output"]                           

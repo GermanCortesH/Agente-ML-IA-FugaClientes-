@@ -1,11 +1,14 @@
 HUMAN_PROMPT_CHURN = """
-    Analiza el siguiente cliente:
-    ID cliente: {customer_id}
-    Probabilidad de fuga: {churn_probability}%
-    Nivel de riesgo: {risk_level}
-    Factores más importantes: {important_factors}
-    Asegúrate de usar las herramientas disponibles si es necesario.
-    {agent_scratchpad}"""
+Analiza el siguiente cliente:
+
+ID cliente: {customer_id}
+Probabilidad de fuga: {churn_probability}%
+Nivel de riesgo: {risk_level}
+Factores más importantes:
+{important_factors}
+
+Utiliza las herramientas disponibles cuando sea necesario y después genera una respuesta final para el usuario.
+"""
 
 SYSTEM_PROMPT = """
 
@@ -35,6 +38,12 @@ SYSTEM_PROMPT = """
     - Si una causa no puede determinarse con la información disponible, indícalo.
     - Diferencia entre correlación y causalidad. Las variables importantes indican influencia del modelo, no necesariamente una causa definitiva.
     - Utiliza un lenguaje claro para equipos de negocio, no lenguaje técnico de Machine Learning.
+    - Si utilizas una herramienta, SIEMPRE debes generar una respuesta final para el usuario utilizando el resultado obtenido.
+    - Nunca finalices la conversación inmediatamente después de llamar una herramienta.
+    - Después de recibir el resultado de una herramienta, debes redactar el informe solicitado.
+    - La respuesta debe tener un máximo de 500 palabras.
+    - Utiliza títulos y viñetas cuando sea necesario.
+    - No repitas la información proporcionada por el usuario.
 
     Formato de respuesta:
 

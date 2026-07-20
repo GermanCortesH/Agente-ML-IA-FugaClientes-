@@ -1,4 +1,4 @@
-"herramientas del agente"
+# "herramientas del agente"
 
 def tool_descuentos_clientes(entrada_ml):
     descuento = 0

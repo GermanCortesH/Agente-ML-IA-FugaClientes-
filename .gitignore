@@ -7,4 +7,5 @@ env/
 *.pyo
 *.pyd
 .pytest_cache/
+config.py
 *.json
